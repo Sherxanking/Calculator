@@ -188,7 +188,19 @@ class CalculatorViewModel(
     private fun copyResult() {
         val result = state.number1
         if (result.isNotEmpty()) {
-            onCopyResult?.invoke(result)
+            // Format the number with commas before copying to clipboard
+            val formattedResult = formatNumber(result)
+            onCopyResult?.invoke(formattedResult)
+        }
+    }
+
+    private fun formatNumber(number: String): String {
+        return try {
+            if (number.isEmpty()) return ""
+            val formatted = java.text.NumberFormat.getNumberInstance(java.util.Locale.US).format(number.toDouble())
+            formatted
+        } catch (e: Exception) {
+            number
         }
     }
 
