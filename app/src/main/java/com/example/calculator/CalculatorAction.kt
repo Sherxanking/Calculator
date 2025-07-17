@@ -8,4 +8,7 @@ sealed class CalculatorAction {
     object Calculate: CalculatorAction()
     data class Operation(val operation: CalculatorOperation): CalculatorAction()
     data class SelectHistory(val result: String): CalculatorAction()
+    object ClearHistory: CalculatorAction()
+    object PlusMinus: CalculatorAction()
+    object Copy: CalculatorAction()
 }

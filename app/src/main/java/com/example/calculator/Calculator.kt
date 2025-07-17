@@ -64,6 +64,21 @@ fun Calculator(
         ) {
             // Tarix (history) uchun
             if (state.history.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = "Clear History",
+                        color = Color(0xFFFF9800),
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .clickable { onAction(CalculatorAction.ClearHistory) }
+                            .padding(4.dp)
+                    )
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -122,36 +137,37 @@ fun Calculator(
             )
 
 
+            val buttonModifier = Modifier
+                .aspectRatio(1f)
+                .weight(1f)
+
+            // 1-qator: AC, ±, %, /
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 CalculatorButton(
                     symbol = "AC",
-                    modifier = Modifier
-                        .background(LightGray)
-                        .aspectRatio(2f)
-                        .weight(2f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Clear) }
                 )
                 CalculatorButton(
-                    symbol = "Del",
-                    modifier = Modifier
-                        .background(LightGray)
-                        .aspectRatio(1f)
-                        .weight(1f),
-                    onClick = { onAction(CalculatorAction.Delete) }
+                    symbol = "±",
+                    modifier = buttonModifier,
+                    onClick = { onAction(CalculatorAction.PlusMinus) }
+                )
+                CalculatorButton(
+                    symbol = "%",
+                    modifier = buttonModifier,
+                    onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Percent)) }
                 )
                 CalculatorButton(
                     symbol = "/",
-                    modifier = Modifier
-                        .background(Orange)
-                        .aspectRatio(1f)
-                        .weight(1f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Divide)) }
                 )
             }
-
+            // 2-qator: 7,8,9,x
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -159,23 +175,17 @@ fun Calculator(
                 listOf("7", "8", "9").forEach { num ->
                     CalculatorButton(
                         symbol = num,
-                        modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        modifier = buttonModifier,
                         onClick = { onAction(CalculatorAction.Number(num.toInt())) }
                     )
                 }
                 CalculatorButton(
                     symbol = "x",
-                    modifier = Modifier
-                        .background(Orange)
-                        .aspectRatio(1f)
-                        .weight(1f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Multiply)) }
                 )
             }
-
+            // 3-qator: 4,5,6,-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -183,23 +193,17 @@ fun Calculator(
                 listOf("4", "5", "6").forEach { num ->
                     CalculatorButton(
                         symbol = num,
-                        modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        modifier = buttonModifier,
                         onClick = { onAction(CalculatorAction.Number(num.toInt())) }
                     )
                 }
                 CalculatorButton(
                     symbol = "-",
-                    modifier = Modifier
-                        .background(Orange)
-                        .aspectRatio(1f)
-                        .weight(1f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Subtract)) }
                 )
             }
-
+            // 4-qator: 1,2,3,+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -207,49 +211,39 @@ fun Calculator(
                 listOf("1", "2", "3").forEach { num ->
                     CalculatorButton(
                         symbol = num,
-                        modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        modifier = buttonModifier,
                         onClick = { onAction(CalculatorAction.Number(num.toInt())) }
                     )
                 }
                 CalculatorButton(
                     symbol = "+",
-                    modifier = Modifier
-                        .background(Orange)
-                        .aspectRatio(1f)
-                        .weight(1f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Add)) }
                 )
             }
-
+            // 5-qator: C, 0(ikki ustun), ., =
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 CalculatorButton(
+                    symbol = "C",
+                    modifier = buttonModifier,
+                    onClick = { onAction(CalculatorAction.Copy) }
+                )
+                CalculatorButton(
                     symbol = "0",
-                    modifier = Modifier
-                        .background(Color.DarkGray)
-                        .aspectRatio(2f)
-                        .weight(2f),
+                    modifier = buttonModifier.weight(2f),
                     onClick = { onAction(CalculatorAction.Number(0)) }
                 )
                 CalculatorButton(
                     symbol = ".",
-                    modifier = Modifier
-                        .background(Color.DarkGray)
-                        .aspectRatio(1f)
-                        .weight(1f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Decimal) }
                 )
                 CalculatorButton(
                     symbol = "=",
-                    modifier = Modifier
-                        .background(Orange)
-                        .aspectRatio(1f)
-                        .weight(1f),
+                    modifier = buttonModifier,
                     onClick = { onAction(CalculatorAction.Calculate) }
                 )
             }

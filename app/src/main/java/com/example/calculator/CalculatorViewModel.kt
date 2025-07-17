@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class CalculatorViewModel : ViewModel() {
+class CalculatorViewModel(
+    private val onCopyResult: ((String) -> Unit)? = null
+) : ViewModel() {
     var state by mutableStateOf(CalculatorState())
         private set
 
@@ -18,7 +20,28 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorAction.Calculate -> performCalculate()
             is CalculatorAction.Delete -> performDelete()
             is CalculatorAction.SelectHistory -> selectHistory(action.result)
+            is CalculatorAction.ClearHistory -> clearHistory()
+            is CalculatorAction.PlusMinus -> togglePlusMinus()
+            is CalculatorAction.Copy -> copyResult()
         }
+    }
+
+    private fun togglePlusMinus() {
+        state = if (state.operation == null) {
+            val n1 = state.number1
+            if (n1.startsWith("-")) state.copy(number1 = n1.removePrefix("-"))
+            else if (n1.isNotEmpty()) state.copy(number1 = "-" + n1)
+            else state
+        } else {
+            val n2 = state.number2
+            if (n2.startsWith("-")) state.copy(number2 = n2.removePrefix("-"))
+            else if (n2.isNotEmpty()) state.copy(number2 = "-" + n2)
+            else state
+        }
+    }
+
+    private fun clearHistory() {
+        state = state.copy(history = emptyList())
     }
 
     private fun selectHistory(result: String) {
@@ -55,6 +78,17 @@ class CalculatorViewModel : ViewModel() {
                 is CalculatorOperation.Subtract -> number1 - number2
                 is CalculatorOperation.Multiply -> number1 * number2
                 is CalculatorOperation.Divide -> if (number2 != 0.0) number1 / number2 else null
+                is CalculatorOperation.Percent -> number1 * number2 / 100
+                is CalculatorOperation.Sqrt -> if (state.number2.isEmpty()) {
+                    if (number1 >= 0) Math.sqrt(number1) else null
+                } else {
+                    if (number2 >= 0) Math.sqrt(number2) else null
+                }
+                is CalculatorOperation.Square -> if (state.number2.isEmpty()) {
+                    number1 * number1
+                } else {
+                    number2 * number2
+                }
                 null -> null
             }
 
@@ -91,6 +125,9 @@ class CalculatorViewModel : ViewModel() {
                         is CalculatorOperation.Subtract -> number1 - number2
                         is CalculatorOperation.Multiply -> number1 * number2
                         is CalculatorOperation.Divide -> if (number2 != 0.0) number1 / number2 else null
+                        is CalculatorOperation.Percent -> number1 * number2 / 100
+                        is CalculatorOperation.Sqrt -> if (number2 >= 0) Math.sqrt(number2) else null
+                        is CalculatorOperation.Square -> number2 * number2
                         null -> null
                     }
                 } else null
@@ -135,6 +172,13 @@ class CalculatorViewModel : ViewModel() {
             if (state.number2.length < MAX_NUM_LENGTH) {
                 state = state.copy(number2 = state.number2 + number)
             }
+        }
+    }
+
+    private fun copyResult() {
+        val result = state.number1
+        if (result.isNotEmpty()) {
+            onCopyResult?.invoke(result)
         }
     }
 
