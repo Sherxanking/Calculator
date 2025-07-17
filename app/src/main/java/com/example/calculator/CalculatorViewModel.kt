@@ -17,7 +17,16 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorAction.Operation -> enterOperation(action.operation)
             is CalculatorAction.Calculate -> performCalculate()
             is CalculatorAction.Delete -> performDelete()
+            is CalculatorAction.SelectHistory -> selectHistory(action.result)
         }
+    }
+
+    private fun selectHistory(result: String) {
+        state = state.copy(
+            number1 = result,
+            number2 = "",
+            operation = null
+        )
     }
 
     private fun performDelete() {
@@ -55,10 +64,13 @@ class CalculatorViewModel : ViewModel() {
                 } else {
                     result.toBigDecimal().toPlainString()
                 }
+                val operationSymbol = state.operation?.symbol ?: ""
+                val historyEntry = "${state.number1} $operationSymbol ${state.number2} = $resultString"
                 state = state.copy(
                     number1 = resultString.take(15),
                     number2 = "",
-                    operation = null
+                    operation = null,
+                    history = state.history + historyEntry
                 )
             } else {
                 state = state.copy(number1 = "Error")
@@ -127,6 +139,6 @@ class CalculatorViewModel : ViewModel() {
     }
 
     companion object {
-        private const val MAX_NUM_LENGTH = 8
+        private const val MAX_NUM_LENGTH = 15
     }
 }

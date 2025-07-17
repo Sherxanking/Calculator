@@ -18,6 +18,7 @@ import com.example.calculator.ui.theme.LightGray
 import com.example.calculator.ui.theme.Orange
 import java.text.NumberFormat
 import java.util.Locale
+import androidx.compose.foundation.clickable
 
 fun formatNumber(number: String): String {
     return try {
@@ -61,10 +62,52 @@ fun Calculator(
                 .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
+            // Tarix (history) uchun
+            if (state.history.isNotEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                ) {
+                    val lastHistory = state.history.takeLast(5)
+                    lastHistory.forEach { entry ->
+                        val result = entry.substringAfterLast("=").trim()
+                        Text(
+                            text = entry,
+                            fontSize = 16.sp,
+                            color = Color.LightGray,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 2.dp)
+                                .background(Color(0x22222222))
+                                .clickable { onAction(CalculatorAction.SelectHistory(result)) }
+                        )
+                    }
+                }
+            }
 
             Text(
-                text = formatNumber(state.number1) + (state.operation?.symbol ?: "") + formatNumber(state.number2) +
-                        if (state.number2.isNotEmpty()) " = ${calculateResult(state)}" else "",
+                text = buildString {
+                    append(
+                        if (state.number1.endsWith("."))
+                            formatNumber(state.number1.dropLast(1)) + "."
+                        else
+                            formatNumber(state.number1)
+                    )
+                    append(state.operation?.symbol ?: "")
+                    append(
+                        if (state.number2.endsWith("."))
+                            formatNumber(state.number2.dropLast(1)) + "."
+                        else
+                            formatNumber(state.number2)
+                    )
+                    if (state.number2.isNotEmpty()) {
+                        append(" = ")
+                        append(calculateResult(state))
+                    }
+                },
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .fillMaxWidth()
