@@ -34,6 +34,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var isDarkTheme by remember { mutableStateOf(true) }
+            // Set system bar icons color
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            val controller = WindowInsetsControllerCompat(window, window.decorView)
+            controller.isAppearanceLightStatusBars = !isDarkTheme
             CalculatorTheme(darkTheme = isDarkTheme) {
                 val context = this
                 val viewModel = remember {
