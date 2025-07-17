@@ -50,8 +50,13 @@ class CalculatorViewModel : ViewModel() {
             }
 
             if (result != null) {
+                val resultString = if (result % 1.0 == 0.0) {
+                    result.toInt().toString()
+                } else {
+                    result.toBigDecimal().toPlainString()
+                }
                 state = state.copy(
-                    number1 = result.toBigDecimal().toPlainString().take(15),
+                    number1 = resultString.take(15),
                     number2 = "",
                     operation = null
                 )
@@ -64,17 +69,46 @@ class CalculatorViewModel : ViewModel() {
 
     private fun enterOperation(operation: CalculatorOperation) {
         if (state.number1.isNotBlank()) {
-            state = state.copy(operation = operation)
+            if (state.operation != null && state.number2.isNotBlank()) {
+                // Avvalgi amalni hisoblash
+                val number1 = state.number1.toDoubleOrNull()
+                val number2 = state.number2.toDoubleOrNull()
+                val result = if (number1 != null && number2 != null) {
+                    when (state.operation) {
+                        is CalculatorOperation.Add -> number1 + number2
+                        is CalculatorOperation.Subtract -> number1 - number2
+                        is CalculatorOperation.Multiply -> number1 * number2
+                        is CalculatorOperation.Divide -> if (number2 != 0.0) number1 / number2 else null
+                        null -> null
+                    }
+                } else null
+                val resultString = if (result != null) {
+                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toBigDecimal().toPlainString()
+                } else {
+                    "Error"
+                }
+                state = state.copy(
+                    number1 = resultString.take(15),
+                    number2 = "",
+                    operation = operation
+                )
+            } else {
+                state = state.copy(operation = operation)
+            }
         }
     }
 
     private fun enterDecimal() {
         if (state.operation == null) {
-            if (state.number1.isNotEmpty() && !state.number1.contains(".")) {
+            if (state.number1.isEmpty()) {
+                state = state.copy(number1 = "0.")
+            } else if (!state.number1.contains(".")) {
                 state = state.copy(number1 = state.number1 + ".")
             }
         } else {
-            if (state.number2.isNotEmpty() && !state.number2.contains(".")) {
+            if (state.number2.isEmpty()) {
+                state = state.copy(number2 = "0.")
+            } else if (!state.number2.contains(".")) {
                 state = state.copy(number2 = state.number2 + ".")
             }
         }
