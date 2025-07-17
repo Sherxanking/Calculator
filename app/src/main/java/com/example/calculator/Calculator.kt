@@ -53,6 +53,7 @@ fun Calculator(
     buttonSpacing: Dp = 8.dp,
     modifier: Modifier = Modifier,
     onAction: (CalculatorAction) -> Unit,
+    isDarkTheme: Boolean = true,
 ) {
     Box(modifier = modifier) {
         Column(
@@ -87,16 +88,20 @@ fun Calculator(
                     val lastHistory = state.history.takeLast(5)
                     lastHistory.forEach { entry ->
                         val result = entry.substringAfterLast("=").trim()
+                        // Format numbers in history entry
+                        val formattedEntry = entry
+                            .replace(Regex("\\d+(?:\\.\\d+)?")) { matchResult ->
+                                formatNumber(matchResult.value)
+                            }
                         Text(
-                            text = entry,
+                            text = formattedEntry,
                             fontSize = 16.sp,
-                            color = Color.LightGray,
+                            color = if (isDarkTheme) Color.LightGray else Color.Gray,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 2.dp)
-                                .background(Color(0x22222222))
                                 .clickable { onAction(CalculatorAction.SelectHistory(result)) }
                         )
                     }
@@ -130,7 +135,7 @@ fun Calculator(
                 fontWeight = FontWeight.Light,
                 fontSize = 40.sp,
                 lineHeight = 50.sp,
-                color = Color.White,
+                color = if (isDarkTheme) Color.White else Color.Black,
                 maxLines = 2,
                 overflow = TextOverflow.Visible,
                 softWrap = true
@@ -253,10 +258,4 @@ fun Calculator(
     }
 }
 
-@Preview
-@Composable
-private fun Pre() {
-    Calculator(
-        state = CalculatorState()
-    ) { }
-}
+
