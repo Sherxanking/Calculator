@@ -96,7 +96,7 @@ class CalculatorViewModel(
                 val resultString = if (result % 1.0 == 0.0) {
                     result.toInt().toString()
                 } else {
-                    result.toBigDecimal().toPlainString()
+                    String.format("%.2f", result)
                 }
                 val operationSymbol = state.operation?.symbol ?: ""
                 val historyEntry = "${state.number1} $operationSymbol ${state.number2} = $resultString"
@@ -132,7 +132,7 @@ class CalculatorViewModel(
                     }
                 } else null
                 val resultString = if (result != null) {
-                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toBigDecimal().toPlainString()
+                    if (result % 1.0 == 0.0) result.toInt().toString() else String.format("%.2f", result)
                 } else {
                     "Error"
                 }
@@ -142,7 +142,7 @@ class CalculatorViewModel(
                     operation = operation
                 )
             } else {
-                state = state.copy(operation = operation)
+            state = state.copy(operation = operation)
             }
         }
     }

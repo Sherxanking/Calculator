@@ -63,7 +63,7 @@ fun Calculator(
                 .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
-            // Tarix (history) uchun
+            // (history)
             if (state.history.isNotEmpty()) {
                 Row(
                     modifier = Modifier
@@ -146,7 +146,7 @@ fun Calculator(
                 .aspectRatio(1f)
                 .weight(1f)
 
-            // 1-qator: AC, ±, %, /
+            // 1-: AC, ±, %, /
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -172,7 +172,7 @@ fun Calculator(
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Divide)) }
                 )
             }
-            // 2-qator: 7,8,9,x
+            // 2-: 7,8,9,x
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -190,7 +190,7 @@ fun Calculator(
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Multiply)) }
                 )
             }
-            // 3-qator: 4,5,6,-
+            // 3-: 4,5,6,-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -208,7 +208,7 @@ fun Calculator(
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Subtract)) }
                 )
             }
-            // 4-qator: 1,2,3,+
+            // 4-: 1,2,3,+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -226,7 +226,7 @@ fun Calculator(
                     onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Add)) }
                 )
             }
-            // 5-qator: C, 0(ikki ustun), ., =
+            // 5-: C, 0(), ., =
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)

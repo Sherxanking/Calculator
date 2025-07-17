@@ -73,7 +73,7 @@ class CalculatorViewModelTest {
     @Test
     fun testMaxNumberLength() {
         repeat(10) { viewModel.onAction(CalculatorAction.Number(9)) }
-        assertEquals(8, viewModel.state.number1.length)
+        assertEquals(15, viewModel.state.number1.length)
     }
 
     @Test

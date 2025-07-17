@@ -54,16 +54,16 @@ class MainActivity : ComponentActivity() {
                 val state = viewModel.state
                 val buttonSpacing = 8.dp
                 Box {
-                    Calculator(
-                        state = state,
-                        onAction = viewModel::onAction,
-                        buttonSpacing = buttonSpacing,
-                        modifier = Modifier
-                            .fillMaxSize()
+                Calculator(
+                    state = state,
+                    onAction = viewModel::onAction,
+                    buttonSpacing = buttonSpacing,
+                    modifier = Modifier
+                        .fillMaxSize()
                             .background(if (isDarkTheme) MediumGray else Color.White)
                             .padding(16.dp),
                         isDarkTheme = isDarkTheme
-                    )
+                )
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
