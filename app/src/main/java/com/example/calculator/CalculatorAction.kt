@@ -11,4 +11,5 @@ sealed class CalculatorAction {
     object ClearHistory: CalculatorAction()
     object PlusMinus: CalculatorAction()
     object Copy: CalculatorAction()
+    object Percent: CalculatorAction()
 }

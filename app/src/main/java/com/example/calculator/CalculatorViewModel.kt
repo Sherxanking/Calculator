@@ -23,6 +23,16 @@ class CalculatorViewModel(
             is CalculatorAction.ClearHistory -> clearHistory()
             is CalculatorAction.PlusMinus -> togglePlusMinus()
             is CalculatorAction.Copy -> copyResult()
+            is CalculatorAction.Percent -> handlePercent()
+        }
+    }
+
+    private fun handlePercent() {
+        if (state.operation != null && state.number2.isNotEmpty()) {
+            val n1 = state.number1.toDoubleOrNull() ?: return
+            val n2 = state.number2.toDoubleOrNull() ?: return
+            val percentValue = n1 * n2 / 100
+            state = state.copy(number2 = percentValue.toString())
         }
     }
 

@@ -164,7 +164,7 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "%",
                     modifier = buttonModifier,
-                    onClick = { onAction(CalculatorAction.Operation(CalculatorOperation.Percent)) }
+                    onClick = { onAction(CalculatorAction.Percent) }
                 )
                 CalculatorButton(
                     symbol = "/",
