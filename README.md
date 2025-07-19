@@ -4,7 +4,7 @@
 
 ### 🎯 Core Calculator Functions
 - **Basic Operations**: Addition (+), Subtraction (-), Multiplication (×), Division (÷)
-- **Advanced Operations**: Percentage (%), Square Root (√), Square (x²), Plus/Minus (±)
+- **Advanced Operations**: Percentage (%), Plus/Minus (±)
 - **Smart Percent**: Xiaomi-style percentage calculation
 - **Decimal Support**: Precise decimal calculations
 - **Number Formatting**: Automatic comma separation for better readability
