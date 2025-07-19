@@ -96,9 +96,6 @@ Run instrumented tests:
 
 ### Advanced Features
 - **Percentage**: Enter number, press %, then operation
-- **Square Root**: Enter number, press √
-- **Square**: Enter number, press x²
-- **History**: Tap any history entry to reuse
 - **Copy**: Press C to copy current result
 - **Theme**: Use theme toggle button for dark/light mode
 
